@@ -51,6 +51,14 @@
           </md-grid-tile-footer>
         </md-grid-tile>
       </md-grid-list>
+
+      <md-list>
+        <md-subheader class="md-no-sticky">Single Action Checkboxes</md-subheader>
+        <md-list-item ng-repeat="person in vm.people" ng-click="goToPerson(person.name, $event)">
+          <p>{{ person.name }}</p>
+          <md-checkbox class="md-secondary" ng-model="person.newMessage"></md-checkbox>
+        </md-list-item>
+      </md-list>
     </div>
 
     <!-- Angular Material Dependencies -->
