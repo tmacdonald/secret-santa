@@ -19,4 +19,6 @@ gulp.task('serve', [], function() {
   });
 
   gulp.watch(['app/**/*.html'], reload);
+  gulp.watch(['app/**/*.css'], reload);
+  gulp.watch(['app/**/*.js'], reload);
 });

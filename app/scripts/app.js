@@ -9,6 +9,7 @@ var AppController = app.controller('AppCtrl', ['$scope', function($scope) {
   }, {
     name: 'Remi',
   }, {
-    name: 'Sicco'
+    name: 'Sicco',
+    newMessage: true
   }];
 }]);
