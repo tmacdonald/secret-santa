@@ -8,9 +8,6 @@
   </head>
   <body class="gridListdemoBasicUsage" ng-app="SecretSanta">
     <div ng-controller="AppCtrl as vm" layout="column" layout-margin style="padding:25px;" ng-cloak>
-      <div layout="row" layout-sm="column" layout-align="space-around">
-        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-      </div>
 
       <md-grid-list
         md-cols-sm="1" md-cols-md="2" md-cols-gt-md="6"
@@ -18,11 +15,23 @@
         md-gutter="12px" md-gutter-gt-sm="8px" >
         <md-grid-tile class="gray"
             md-rowspan="3" md-colspan="2" md-colspan-sm="1">
+            <md-list>
+              <md-subheader class="md-no-sticky">Single Action Checkboxes</md-subheader>
+              <md-list-item ng-repeat="person in vm.people" ng-click="goToPerson(person.name, $event)">
+                <p>{{ person.name }}</p>
+                <md-checkbox class="md-secondary" ng-model="person.newMessage"></md-checkbox>
+              </md-list-item>
+            </md-list>
+
+
           <md-grid-tile-footer>
             <h3>#1: (3r x 2c)</h3>
           </md-grid-tile-footer>
         </md-grid-tile>
         <md-grid-tile class="green">
+          <div layout="row" layout-sm="column" layout-align="space-around">
+            <md-progress-circular class="md-accent" md-mode="indeterminate"></md-progress-circular>
+          </div>
           <md-grid-tile-footer>
             <h3>#2: (1r x 1c)</h3>
           </md-grid-tile-footer>
@@ -52,13 +61,6 @@
         </md-grid-tile>
       </md-grid-list>
 
-      <md-list>
-        <md-subheader class="md-no-sticky">Single Action Checkboxes</md-subheader>
-        <md-list-item ng-repeat="person in vm.people" ng-click="goToPerson(person.name, $event)">
-          <p>{{ person.name }}</p>
-          <md-checkbox class="md-secondary" ng-model="person.newMessage"></md-checkbox>
-        </md-list-item>
-      </md-list>
     </div>
 
     <!-- Angular Material Dependencies -->
