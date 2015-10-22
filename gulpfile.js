@@ -1,6 +1,8 @@
 var gulp = require('gulp');
 var browserSync = require('browser-sync');
 
+var reload = browserSync.reload;
+
 // Watch files for changes & reload
 gulp.task('serve', [], function() {
   browserSync({
@@ -15,4 +17,6 @@ gulp.task('serve', [], function() {
     // https: true,
     server: ['.tmp', 'app']
   });
+
+  gulp.watch(['app/**/*.html'], reload);
 });
