@@ -9,13 +9,16 @@ app.config(function($mdThemingProvider) {
 var AppController = app.controller('AppCtrl', ['$scope', function($scope) {
   var vm = this;
 
-  vm.people = [{
-    name: 'Tim',
-    newMessage: true
-  }, {
-    name: 'Remi',
-  }, {
-    name: 'Sicco',
-    newMessage: true
-  }];
+  vm.person = {
+    name: ''
+  };
+
+  vm.addPerson = function() {
+    vm.people.push(vm.person);
+    vm.person = {
+      name: ''
+    };
+  }
+
+  vm.people = [];
 }]);
