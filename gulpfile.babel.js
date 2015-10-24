@@ -4,7 +4,7 @@ var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 
 // Watch files for changes & reload
-gulp.task('serve', [], function() {
+gulp.task('serve', [], () => {
   browserSync({
     notify: false,
     // Customize the Browsersync console logging prefix
