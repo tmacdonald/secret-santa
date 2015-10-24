@@ -5,6 +5,11 @@ app.factory('RelationshipsService', ['localStorageService', function(localStorag
       return relationships[name] || [];
     },
 
+    getAll: function() {
+      var relationships = localStorageService.get('relationships') || {};
+      return relationships;
+    },
+
     set: function(name, individualRelationships) {
       var relationships = localStorageService.get('relationships') || {};
       relationships[name] = individualRelationships;

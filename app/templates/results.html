@@ -1,0 +1,9 @@
+<button ng-if="!vm.results" ng-click="vm.generate()">Generate Results</button>
+
+<form ng-submit="vm.checkResult()">
+  <input type="text" ng-model="vm.name" placeholder="Type your name and hit enter" />
+</form>
+
+<div ng-if="vm.result">
+  You need to buy a gift for {{vm.result}}. <a ng-click="vm.clearResult()">Click here so that the next person can check</a>
+</div>
