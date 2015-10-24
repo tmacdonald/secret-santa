@@ -9,7 +9,10 @@
     <div ng-controller="AppCtrl as vm" ng-cloak>
         <form ng-submit="vm.addPerson()">
           <ul>
-            <li ng-repeat="person in vm.people">{{ person.name }}</li>
+            <li ng-repeat="person in vm.people track by $index">
+              {{ person.name }}
+              <a href="#" ng-click="vm.removePerson($index)">remove</a>
+            </li>
           </ul>
 
           <label>Name</label>
@@ -22,6 +25,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-aria.min.js"></script>
+
+    <script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js" charset="utf-8"></script>
 
     <script src="scripts/app.js"></script>
   </body>
