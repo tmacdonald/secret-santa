@@ -3,18 +3,14 @@ var ParticipantsController = app.controller('ParticipantsCtrl', ['ParticipantsSe
 
   vm.participants = service.get('participants') || [];
 
-  vm.newParticipant = {
-    name: ''
-  };
+  vm.newParticipant = '';
 
   vm.addParticipant = function() {
 
     vm.participants.push(vm.newParticipant);
     service.set(vm.participants);
 
-    vm.newParticipant = {
-      name: ''
-    };
+    vm.newParticipant = '';
   };
 
   vm.removeParticipant = function(index) {

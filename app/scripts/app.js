@@ -9,6 +9,10 @@ app.config(['$routeProvider', 'localStorageServiceProvider', function($routeProv
       templateUrl: 'templates/participants.html',
       controller: 'ParticipantsCtrl as vm'
     })
+    .when('/relationships', {
+      templateUrl: 'templates/relationships.html',
+      controller: 'RelationshipsCtrl as vm'
+    })
     .otherwise({
       redirectTo: '/participants'
     })

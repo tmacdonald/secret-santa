@@ -1,13 +1,13 @@
 <form ng-submit="vm.addParticipant()">
   <ul>
     <li ng-repeat="participant in vm.participants track by $index">
-      {{ participant.name }}
+      {{ participant }}
       <a href="#" ng-click="vm.removeParticipant($index)">remove</a>
     </li>
   </ul>
 
   <label>Name</label>
-  <input ng-model="vm.newParticipant.name" type="text">
+  <input ng-model="vm.newParticipant" type="text">
   <button>Add participant</button>
 
 </form>
