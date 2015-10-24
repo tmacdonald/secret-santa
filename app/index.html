@@ -3,41 +3,25 @@
   <head>
     <meta charset="utf-8">
     <title>Secret Santa</title>
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.css">
     <link rel="stylesheet" href="/stylesheets/style.css" media="screen" title="no title" charset="utf-8">
   </head>
-  <body class="gridListdemoBasicUsage" ng-app="SecretSanta">
-    <div ng-controller="AppCtrl as vm" layout="column" layout-margin ng-cloak>
-      <md-content layout-padding class="autoScroll">
+  <body ng-app="SecretSanta">
+    <div ng-controller="AppCtrl as vm" ng-cloak>
         <form ng-submit="vm.addPerson()">
-          <md-list>
-            <md-subheader class="md-no-sticky">Add participants</md-subheader>
-            <md-list-item ng-repeat="person in vm.people">
-              <p>{{ person.name }}</p>
-              <md-icon md-svg-icon="communication:messenger" ng-click="doSecondaryAction($event)" aria-label="Open Chat" class="md-secondary md-hue-3" ng-class="{'md-primary': true}"></md-icon>
-            </md-list-item>
-          </md-list>
-          <md-input-container>
-            <!-- Use floating label instead of placeholder -->
-            <label>Name</label>
-            <input ng-model="vm.person.name" type="text">
-          </md-input-container>
-          <section layout="row" layout-sm="column" layout-wrap>
-            <md-button class="md-raised md-primary">Add participant</md-button>
-          </section>
+          <ul>
+            <li ng-repeat="person in vm.people">{{ person.name }}</li>
+          </ul>
+
+          <label>Name</label>
+          <input ng-model="vm.person.name" type="text">
+          <button>Add participant</button>
+
         </form>
-      </md-content>
-
-
     </div>
 
-    <!-- Angular Material Dependencies -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-aria.min.js"></script>
-
-    <!-- Angular Material Javascript now available via Google CDN; version 0.11.2 used here -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.js"></script>
 
     <script src="scripts/app.js"></script>
   </body>
