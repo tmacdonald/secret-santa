@@ -6,21 +6,7 @@
     <link rel="stylesheet" href="/stylesheets/style.css" media="screen" title="no title" charset="utf-8">
   </head>
   <body ng-app="SecretSanta">
-    <div ng-controller="AppCtrl as vm" ng-cloak>
-        <form ng-submit="vm.addPerson()">
-          <ul>
-            <li ng-repeat="person in vm.people track by $index">
-              {{ person.name }}
-              <a href="#" ng-click="vm.removePerson($index)">remove</a>
-            </li>
-          </ul>
-
-          <label>Name</label>
-          <input ng-model="vm.person.name" type="text">
-          <button>Add participant</button>
-
-        </form>
-    </div>
+    <div ng-view></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.min.js"></script>
@@ -30,5 +16,7 @@
     <script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js" charset="utf-8"></script>
 
     <script src="scripts/app.js"></script>
+    <script src="scripts/participants/participants_controller.js" charset="utf-8"></script>
+    </script>
   </body>
 </html>

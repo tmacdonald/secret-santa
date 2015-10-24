@@ -1,0 +1,13 @@
+<form ng-submit="vm.addPerson()">
+  <ul>
+    <li ng-repeat="person in vm.people track by $index">
+      {{ person.name }}
+      <a href="#" ng-click="vm.removePerson($index)">remove</a>
+    </li>
+  </ul>
+
+  <label>Name</label>
+  <input ng-model="vm.person.name" type="text">
+  <button>Add participant</button>
+
+</form>

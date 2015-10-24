@@ -1,31 +1,15 @@
-var app = angular.module('SecretSanta', ['LocalStorageModule']);
+var app = angular.module('SecretSanta', ['ngRoute','LocalStorageModule']);
 
-app.config(['localStorageServiceProvider', function(localStorageServiceProvider) {
+app.config(['$routeProvider', 'localStorageServiceProvider', function($routeProvider, localStorageServiceProvider) {
   localStorageServiceProvider.setPrefix('secret-santa');
   localStorageServiceProvider.setStorageType('localStorage');
-}]);
 
-var AppController = app.controller('AppCtrl', ['localStorageService', function(localStorageService) {
-  var vm = this;
-
-  vm.people = localStorageService.get('people') || [];
-
-  vm.person = {
-    name: ''
-  };
-
-  vm.addPerson = function() {
-
-    vm.people.push(vm.person);
-    localStorageService.set('people', vm.people);
-
-    vm.person = {
-      name: ''
-    };
-  };
-
-  vm.removePerson = function(index) {
-    vm.people.splice(index, 1);
-    localStorageService.set('people', vm.people);
-  }
+  $routeProvider
+    .when('/participants', {
+      templateUrl: 'templates/participants.html',
+      controller: 'ParticipantsCtrl as vm'
+    })
+    .otherwise({
+      redirectTo: '/participants'
+    })
 }]);
