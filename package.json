@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/tmacdonald/secret-santa",
   "devDependencies": {
+    "bower": "^1.6.3",
     "browser-sync": "^2.9.11",
     "gulp": "^3.9.0"
   }
