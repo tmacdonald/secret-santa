@@ -1,24 +1,24 @@
-var ParticipantsController = app.controller('ParticipantsCtrl', ['localStorageService', function(localStorageService) {
+var ParticipantsController = app.controller('ParticipantsCtrl', ['ParticipantsService', function(service) {
   var vm = this;
 
-  vm.people = localStorageService.get('participants') || [];
+  vm.participants = service.get('participants') || [];
 
-  vm.person = {
+  vm.newParticipant = {
     name: ''
   };
 
-  vm.addPerson = function() {
+  vm.addParticipant = function() {
 
-    vm.people.push(vm.person);
-    localStorageService.set('participants', vm.people);
+    vm.participants.push(vm.newParticipant);
+    service.set(vm.participants);
 
-    vm.person = {
+    vm.newParticipant = {
       name: ''
     };
   };
 
-  vm.removePerson = function(index) {
-    vm.people.splice(index, 1);
-    localStorageService.set('participants', vm.people);
+  vm.removeParticipant = function(index) {
+    vm.participants.splice(index, 1);
+    service.set('participants', vm.participants);
   }
 }]);
