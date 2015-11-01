@@ -1,6 +1,7 @@
 app.controller('ResultsCtrl', ['ParticipantsService', 'RelationshipsService', 'ResultsService',
   function(participantsService, relationshipsService, resultsService) {
   var vm = this;
+  vm.results = resultsService.get();
 
   vm.generate = function() {
     var participants = participantsService.get();
