@@ -1,4 +1,5 @@
 <div class="container">
+
   <button ng-if="!vm.results" ng-click="vm.generate()">Generate Results</button>
 
   <div ng-if="vm.results && !vm.result">
@@ -11,4 +12,6 @@
     <p>You need to buy a gift for <span>{{vm.result}}</span>.</p>
     <button ng-click="vm.clearResult()">Click here so that the next person can check</button>
   </div>
+
+  <a href="#/results" ng-if="!vm.result" ng-click="vm.persistResults()">All done, save for another year</a>
 </div>

@@ -17,4 +17,17 @@ app.controller('ResultsCtrl', ['ParticipantsService', 'RelationshipsService', 'R
     vm.name = '';
     vm.result = undefined;
   }
+
+  vm.persistResults = function() {
+    for (var prop in vm.results) {
+      if (vm.results.hasOwnProperty(prop)) {
+        var participantRelationships = relationshipsService.get(prop);
+        participantRelationships.push(vm.results[prop]);
+        relationshipsService.set(prop, participantRelationships);
+      }
+    }
+
+    vm.results = {};
+    resultsService.set(vm.results);
+  }
 }]);

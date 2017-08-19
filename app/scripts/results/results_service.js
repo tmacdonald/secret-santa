@@ -8,6 +8,10 @@ app.factory('ResultsService', ['ElfService', 'localStorageService', function(elf
 
     get: function() {
       return localStorageService.get('results');
+    },
+
+    set: function(results) {
+      localStorageService.set('results', results);
     }
   };
 
