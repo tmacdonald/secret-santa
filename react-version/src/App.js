@@ -12,6 +12,21 @@ import PastResults from './components/PastResults'
 import Results from './components/Results'
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      participants: []
+    }
+  }
+
+  componentDidMount() {
+    const participants = JSON.parse(window.localStorage.getItem('participants')) || []
+    this.setState({
+        participants
+    })
+  }
+
   render() {
     return (
       <Router>
