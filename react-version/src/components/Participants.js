@@ -1,13 +1,33 @@
 import React, { Component } from 'react'
 
+function addMemberToGroup(state, group, member) {
+    const i = (state.groups.indexOf(group));
+
+    const newGroup = {
+        members: [...group.members, member]
+    }
+    return {
+        ...state,
+        groups: [...state.groups.slice(0, i), newGroup, ...state.groups.slice(i+1)]
+    }
+}
+
+function addGroup(state, group) {
+    const groups = [...state.groups, { members: []}]
+
+    return {
+        ...state,
+        groups
+    }
+}
+
 class ParticipantForm extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
             name: '',
-            email: '',
-            relationships: []
+            email: ''
         }
 
         this.handleNameChange = this.handleNameChange.bind(this)
@@ -39,61 +59,75 @@ class ParticipantForm extends Component {
                     Name:
                     <input type="text" value={this.state.name} onChange={this.handleNameChange} />
                 </label>
+                { /*
                 <label>
                     Email:
                     <input type="email" value={this.state.email} onChange={this.handleEmailChange} />
                 </label>
-                <input type="submit" value="Add" />
+                */ }
             </form>
         )
     }
 }
 
-class Participants extends Component {
+class Group extends Component {
+    render() {
+        const { group, onAddMemberToGroup } = this.props;
+
+        return (
+            <div className="group">
+                <ul>
+                    { group.members.map(member => <li>{member.name}</li> )}
+                </ul>
+                <ParticipantForm onAddParticipant={onAddMemberToGroup} />
+            </div>
+        )
+    }
+}
+
+class Groups extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            participants: []
+            groups: []
         }
 
-        this.onAddParticipant = this.onAddParticipant.bind(this)
+        this.onAddGroup = this.onAddGroup.bind(this)
+        this.onAddIndividual = this.onAddIndividual.bind(this)
     }
 
     componentDidMount() {
-        const participants = JSON.parse(window.localStorage.getItem('participants')) || []
+        const groups = JSON.parse(window.localStorage.getItem('groups')) || []
         this.setState({
-            participants
+            groups
         })
     }
 
-    onAddParticipant(participant) {
-        this.setState((prevState => {
-            const participants = [...prevState.participants, participant]
+    onAddGroup() {
+        this.setState(state => addGroup(state, { members: [] }))
+    }
 
-            window.localStorage.setItem('participants', JSON.stringify(participants))
+    onAddIndividual() {
+        this.setState(state => addGroup(state, { members: [] }))
+    }
 
-            return {
-                participants
-            }
-        }))
-        this.setState({
-            participants: [...this.state.participants, participant]
-        })
+    onAddMemberToGroup(group, member) {
+        this.setState(state => addMemberToGroup(state, group, member))
     }
 
     render() {
         return (
             <div>
                 <h1>Participants</h1>
-                <ul>
-                    {this.state.participants.map(participant => <li key={participant.name}>{participant.name}</li> )}
-                </ul>
-                <pre>{JSON.stringify(this.state.participants, null, 2) }</pre>
-                <ParticipantForm onAddParticipant={this.onAddParticipant} />
+                <div className="groups">
+                    {this.state.groups.map(group => <Group onAddMemberToGroup={this.onAddMemberToGroup.bind(this, group)} group={group} /> )}
+                </div>
+                <button onClick={this.onAddGroup}>Add group</button>
+                <button onClick={this.onAddIndividual}>Add individual</button>
             </div>
         )
     }
 }
 
-export default Participants
+export default Groups
