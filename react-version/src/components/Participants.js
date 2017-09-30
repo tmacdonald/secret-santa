@@ -1,25 +1,7 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-function addMemberToGroup(state, group, member) {
-    const i = (state.groups.indexOf(group));
-
-    const newGroup = {
-        members: [...group.members, member]
-    }
-    return {
-        ...state,
-        groups: [...state.groups.slice(0, i), newGroup, ...state.groups.slice(i+1)]
-    }
-}
-
-function addGroup(state, group) {
-    const groups = [...state.groups, { members: []}]
-
-    return {
-        ...state,
-        groups
-    }
-}
+import { addGroup, addMemberToGroup } from '../reducers'
 
 class ParticipantForm extends Component {
     constructor(props) {
@@ -70,64 +52,37 @@ class ParticipantForm extends Component {
     }
 }
 
-class Group extends Component {
-    render() {
-        const { group, onAddMemberToGroup } = this.props;
+const Group = ({ group, addMemberToGroup }) => (
+    <div className="group">
+        <ul>
+            { group.members.map(member => <li>{member.name}</li> )}
+        </ul>
+        <ParticipantForm onAddParticipant={addMemberToGroup} />
+    </div>
+)
 
-        return (
-            <div className="group">
-                <ul>
-                    { group.members.map(member => <li>{member.name}</li> )}
-                </ul>
-                <ParticipantForm onAddParticipant={onAddMemberToGroup} />
-            </div>
-        )
+const Groups = ({ groups, addGroup, addMemberToGroup }) => (
+    <div>
+        <h1>Participants</h1>
+        <div className="groups">
+            {groups.map(group => <Group addMemberToGroup={addMemberToGroup.bind(null, group)} group={group} /> )}
+        </div>
+        <button onClick={addGroup}>Add group</button>
+        <button onClick={addGroup}>Add individual</button>
+    </div>
+)
+
+function mapStateToProps(state) {
+    return {
+        groups: state.groups || []
     }
 }
 
-class Groups extends Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            groups: []
-        }
-
-        this.onAddGroup = this.onAddGroup.bind(this)
-        this.onAddIndividual = this.onAddIndividual.bind(this)
-    }
-
-    componentDidMount() {
-        const groups = JSON.parse(window.localStorage.getItem('groups')) || []
-        this.setState({
-            groups
-        })
-    }
-
-    onAddGroup() {
-        this.setState(state => addGroup(state, { members: [] }))
-    }
-
-    onAddIndividual() {
-        this.setState(state => addGroup(state, { members: [] }))
-    }
-
-    onAddMemberToGroup(group, member) {
-        this.setState(state => addMemberToGroup(state, group, member))
-    }
-
-    render() {
-        return (
-            <div>
-                <h1>Participants</h1>
-                <div className="groups">
-                    {this.state.groups.map(group => <Group onAddMemberToGroup={this.onAddMemberToGroup.bind(this, group)} group={group} /> )}
-                </div>
-                <button onClick={this.onAddGroup}>Add group</button>
-                <button onClick={this.onAddIndividual}>Add individual</button>
-            </div>
-        )
+function mapDispatchToProps(dispatch) {
+    return {
+        addGroup: () => dispatch({ type: 'ADD_GROUP', group: { members: [] } }),
+        addMemberToGroup: (group, member) => dispatch({ type: 'ADD_MEMBER_TO_GROUP', group, member })
     }
 }
 
-export default Groups
+export default connect(mapStateToProps, mapDispatchToProps)(Groups)
