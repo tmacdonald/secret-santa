@@ -1,8 +1,12 @@
+let memberCount = 0;
+let groupCount = 0;
+
 function addMemberToGroup(state, group, member) {
     const i = (state.groups.indexOf(group));
 
     const newGroup = {
-        members: [...group.members, member]
+        ...group,
+        members: [...group.members, { ...member, id: memberCount++ }]
     }
     return {
         ...state,
@@ -11,7 +15,8 @@ function addMemberToGroup(state, group, member) {
 }
 
 function addGroup(state, group) {
-    const groups = [...state.groups || [], { members: []}]
+    const id = groupCount++;
+    const groups = [...state.groups || [], { id, members: []}]
 
     return {
         ...state,
