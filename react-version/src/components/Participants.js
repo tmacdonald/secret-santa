@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { addGroup, addMemberToGroup } from '../reducers'
-
 class ParticipantForm extends Component {
     constructor(props) {
         super(props)
