@@ -1,0 +1,32 @@
+{
+    "settings": {
+        "sendgrid_token": ""
+    },
+    "pools": [
+        {
+            "name": "Macdonald",
+            "groups": [
+                { "participants": [1, 2] },
+                { "participants": [3, 4] }
+            ],
+            "participants": [
+                { "id": 1, "name": "Tim", "email": "tim@example.com" },
+                { "id": 2, "name": "Robyn", "email": "robyn@example.com" },
+                { "id": 2, "name": "Laura", "email": "laura@example.com" },
+                { "id": 2, "name": "Denis", "email": "denis@example.com" }
+            ],
+            "events": [
+                { 
+                    "id": 1, 
+                    "name": "2016", 
+                    "matching_results": [
+                        { "gifter": 1, "giftee": 3 },
+                        { "gifter": 2, "giftee": 4 },
+                        { "gifter": 3, "giftee": 2 },
+                        { "gifter": 4, "giftee": 1 }
+                    ]
+                }
+            ]
+        }
+    ]
+}
