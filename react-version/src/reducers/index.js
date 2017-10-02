@@ -1,19 +1,42 @@
 import uuid from 'uuid/v4'
 import { List, Map } from 'immutable'
 
-function addMemberToGroup(state, group, member) {
+const ADD_GROUP = 'ADD_GROUP'
+const ADD_MEMBER_TO_GROUP = 'ADD_MEMBER_TO_GROUP'
+
+function addGroup() {
     const id = uuid()
-    return state
-        .setIn(['participants', id], Map({ ...member, id }))
-        .updateIn(['groups', group.get('id'), 'members'], members => members.push(id))
+
+    return {
+        type: ADD_GROUP,
+        id
+    }
 }
 
-function addGroup(state, group) {
+function addMemberToGroup(group, member) {
     const id = uuid()
+
+    return {
+        type: ADD_MEMBER_TO_GROUP,
+        id,
+        group,
+        member
+    }
+}
+
+function handleAddMemberToGroup(state, { id, group, member }) {
+    const i = state.get('groups').indexOf(group)
+
+    return state
+        .setIn(['participants', id], Map({ ...member, id }))
+        .updateIn(['groups', i, 'members'], members => members.push(id))
+}
+
+function handleAddGroup(state, action) {
+    const { id } = action
     
     return state
-        .setIn(['groups', id], Map({ id, members: List()}))
-        .updateIn(['groupIds'], (groupIds) => groupIds.push(id));
+        .updateIn(['groups'], groups => groups.push(Map({ id, members: List() })))
 }
 
 function addEvent(state, event) {
@@ -33,10 +56,10 @@ function addMatchToEvent(state, event, match) {
 
 function reducer(state, action) {
     switch (action.type) {
-        case 'ADD_GROUP':
-            return addGroup(state, action.group)
-        case 'ADD_MEMBER_TO_GROUP':
-            return addMemberToGroup(state, action.group, action.member)
+        case ADD_GROUP:
+            return handleAddGroup(state, action)
+        case ADD_MEMBER_TO_GROUP:
+            return handleAddMemberToGroup(state, action)
         case 'ADD_EVENT':
             return addEvent(state, action.evt)
         case 'ADD_MATCH_TO_EVENT':
@@ -51,5 +74,7 @@ export default reducer
 // temp
 export {
     addGroup,
-    addMemberToGroup
+    handleAddGroup,
+    addMemberToGroup,
+    handleAddMemberToGroup
 }

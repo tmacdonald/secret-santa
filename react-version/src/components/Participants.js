@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import { addGroup, addMemberToGroup } from '../reducers/index'
+
 class ParticipantForm extends Component {
     constructor(props) {
         super(props)
@@ -59,11 +61,11 @@ const Group = ({ group, participants, addMemberToGroup }) => (
     </div>
 )
 
-const Groups = ({ groupIds, groups, participants, addGroup, addMemberToGroup }) => (
+const Groups = ({ groups, participants, addGroup, addMemberToGroup }) => (
     <div>
         <h1>Participants</h1>
         <div className="groups">
-            {groupIds.map(groupId => <Group key={groupId} addMemberToGroup={addMemberToGroup.bind(null, groups.get(groupId))} group={groups.get(groupId)} participants={participants} /> )}
+            {groups.map(group => <Group key={group.get('id')} addMemberToGroup={addMemberToGroup.bind(null, group)} group={group} participants={participants} /> )}
         </div>
         <button onClick={addGroup}>Add group</button>
         <button onClick={addGroup}>Add individual</button>
@@ -72,7 +74,6 @@ const Groups = ({ groupIds, groups, participants, addGroup, addMemberToGroup }) 
 
 function mapStateToProps(state) {
     return {
-        groupIds: state.get('groupIds'),
         groups: state.get('groups'),
         participants: state.get('participants')
     }
@@ -80,8 +81,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        addGroup: () => dispatch({ type: 'ADD_GROUP', group: { members: [] } }),
-        addMemberToGroup: (group, member) => dispatch({ type: 'ADD_MEMBER_TO_GROUP', group, member })
+        addGroup: () => dispatch(addGroup()),
+        addMemberToGroup: (group, member) => dispatch(addMemberToGroup(group, member))
     }
 }
 
