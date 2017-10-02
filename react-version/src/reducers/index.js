@@ -1,55 +1,34 @@
 import uuid from 'uuid/v4'
+import { List, Map } from 'immutable'
 
 function addMemberToGroup(state, group, member) {
-    const newMember = {
-        ...member,
-        id: uuid()
-    }
-
-    const newGroup = {
-        ...group,
-        members: [...group.members, newMember.id]
-    }
-    return {
-        ...state,
-        participants: { ...state.participants || {}, [newMember.id]: newMember },
-        groups: {...state.groups, [group.id]: newGroup}
-    }
+    const id = uuid()
+    return state
+        .setIn(['participants', id], Map({ ...member, id }))
+        .updateIn(['groups', group.get('id'), 'members'], members => members.push(id))
 }
 
 function addGroup(state, group) {
     const id = uuid()
-    const groups = {...state.groups || {}, [id]: { id, members: []}}
-
-    return {
-        ...state,
-        groupIds: [...state.groupIds || [], id],
-        groups
-    }
+    
+    return state
+        .setIn(['groups', id], Map({ id, members: List()}))
+        .updateIn(['groupIds'], (groupIds) => groupIds.push(id));
 }
 
 function addEvent(state, event) {
     const id = uuid()
-    const events = [...state.events || [], { ...event, id, matching_results: []}]
 
-    return {
-        ...state,
-        events
-    }
+    return state
+        .updateIn(['events'], events => events.push(
+            event.setIn(['id'], id)
+                .setIn(['matching_results'], List())
+        ))
 }
 
 function addMatchToEvent(state, event, match) {
-    const { events } = state
-    const i = (events.indexOf(event))
-
-    const newEvent = {
-        ...event,
-        matching_results: [...event.matching_results, match]
-    }
-    return {
-        ...state,
-        events: [...events.slice(0, i), newEvent, ...events.slice(i + 1)]
-    }
+    return state
+        .updateIn(['events', event.get('id', 'matching_results')], matching_results => matching_results.push(match))
 }
 
 function reducer(state, action) {
@@ -59,9 +38,9 @@ function reducer(state, action) {
         case 'ADD_MEMBER_TO_GROUP':
             return addMemberToGroup(state, action.group, action.member)
         case 'ADD_EVENT':
-            return addEvent(state, action.event)
+            return addEvent(state, action.evt)
         case 'ADD_MATCH_TO_EVENT':
-            return addMatchToEvent(state, action.event, action.match)
+            return addMatchToEvent(state, action.evt, action.match)
         default:
             return state
     }

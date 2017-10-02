@@ -53,7 +53,7 @@ class ParticipantForm extends Component {
 const Group = ({ group, participants, addMemberToGroup }) => (
     <div className="group">
         <ul>
-            { group.members.map(id => participants[id]).map(member => <li key={member.id}>{member.name}</li> )}
+            { group.get('members').map(id => participants.get(id)).map(member => <li key={member.get('id')}>{member.get('name')}</li> )}
         </ul>
         <ParticipantForm onAddParticipant={addMemberToGroup} />
     </div>
@@ -63,7 +63,7 @@ const Groups = ({ groupIds, groups, participants, addGroup, addMemberToGroup }) 
     <div>
         <h1>Participants</h1>
         <div className="groups">
-            {groupIds.map(groupId => <Group addMemberToGroup={addMemberToGroup.bind(null, groups[groupId])} group={groups[groupId]} participants={participants} /> )}
+            {groupIds.map(groupId => <Group key={groupId} addMemberToGroup={addMemberToGroup.bind(null, groups.get(groupId))} group={groups.get(groupId)} participants={participants} /> )}
         </div>
         <button onClick={addGroup}>Add group</button>
         <button onClick={addGroup}>Add individual</button>
@@ -72,9 +72,9 @@ const Groups = ({ groupIds, groups, participants, addGroup, addMemberToGroup }) 
 
 function mapStateToProps(state) {
     return {
-        groupIds: state.groupIds || [],
-        groups: state.groups || [],
-        participants: state.participants || []
+        groupIds: state.get('groupIds'),
+        groups: state.get('groups'),
+        participants: state.get('participants')
     }
 }
 
