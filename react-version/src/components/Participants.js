@@ -50,20 +50,20 @@ class ParticipantForm extends Component {
     }
 }
 
-const Group = ({ group, addMemberToGroup }) => (
+const Group = ({ group, participants, addMemberToGroup }) => (
     <div className="group">
         <ul>
-            { group.members.map(member => <li>{member.name}</li> )}
+            { group.members.map(id => participants[id]).map(member => <li key={member.id}>{member.name}</li> )}
         </ul>
         <ParticipantForm onAddParticipant={addMemberToGroup} />
     </div>
 )
 
-const Groups = ({ groups, addGroup, addMemberToGroup }) => (
+const Groups = ({ groupIds, groups, participants, addGroup, addMemberToGroup }) => (
     <div>
         <h1>Participants</h1>
         <div className="groups">
-            {groups.map(group => <Group addMemberToGroup={addMemberToGroup.bind(null, group)} group={group} /> )}
+            {groupIds.map(groupId => <Group addMemberToGroup={addMemberToGroup.bind(null, groups[groupId])} group={groups[groupId]} participants={participants} /> )}
         </div>
         <button onClick={addGroup}>Add group</button>
         <button onClick={addGroup}>Add individual</button>
@@ -72,7 +72,9 @@ const Groups = ({ groups, addGroup, addMemberToGroup }) => (
 
 function mapStateToProps(state) {
     return {
-        groups: state.groups || []
+        groupIds: state.groupIds || [],
+        groups: state.groups || [],
+        participants: state.participants || []
     }
 }
 

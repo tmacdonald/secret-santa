@@ -1,31 +1,35 @@
-let memberCount = 0;
-let groupCount = 0;
+import uuid from 'uuid/v4'
 
 function addMemberToGroup(state, group, member) {
-    const i = (state.groups.indexOf(group))
+    const newMember = {
+        ...member,
+        id: uuid()
+    }
 
     const newGroup = {
         ...group,
-        members: [...group.members, { ...member, id: memberCount++ }]
+        members: [...group.members, newMember.id]
     }
     return {
         ...state,
-        groups: [...state.groups.slice(0, i), newGroup, ...state.groups.slice(i + 1)]
+        participants: { ...state.participants || {}, [newMember.id]: newMember },
+        groups: {...state.groups, [group.id]: newGroup}
     }
 }
 
 function addGroup(state, group) {
-    const id = groupCount++
-    const groups = [...state.groups || [], { id, members: []}]
+    const id = uuid()
+    const groups = {...state.groups || {}, [id]: { id, members: []}}
 
     return {
         ...state,
+        groupIds: [...state.groupIds || [], id],
         groups
     }
 }
 
 function addEvent(state, event) {
-    const id = eventCount++
+    const id = uuid()
     const events = [...state.events || [], { id, matching_results: []}]
 
     return {

@@ -15,18 +15,14 @@ import Relationships from './components/Relationships'
 import PastResults from './components/PastResults'
 import Results from './components/Results'
 
-import { normalize, denormalize } from 'normalizr'
-import { pool } from './schema'
-
 const storedState = JSON.parse(window.localStorage.getItem('secret-santa'))
 
-const initialState = storedState ? denormalize(storedState.entities.pools['1'], pool, storedState.entities) : { id: 1 }
+const initialState = storedState || {}
 
 const store = createStore(rootReducer, initialState)
 
 store.subscribe(() => {
-  const normalizedData = normalize(store.getState(), pool)
-  window.localStorage.setItem('secret-santa', JSON.stringify(normalizedData))
+  window.localStorage.setItem('secret-santa', JSON.stringify(store.getState()))
 })
 
 class App extends Component {
