@@ -17,7 +17,6 @@
             ],
             "events": [
                 { 
-                    "id": 1, 
                     "name": "2016", 
                     "matching_results": [
                         { "gifter": 1, "giftee": 3 },

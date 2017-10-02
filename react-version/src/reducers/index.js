@@ -30,7 +30,7 @@ function addGroup(state, group) {
 
 function addEvent(state, event) {
     const id = uuid()
-    const events = [...state.events || [], { id, matching_results: []}]
+    const events = [...state.events || [], { ...event, id, matching_results: []}]
 
     return {
         ...state,
