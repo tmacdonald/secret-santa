@@ -37,7 +37,7 @@ class Events extends Component {
       <div>
           <h1>Past Events</h1>
           <div className="events">
-              { events.map(evt => <Event key={evt.get('id')} event={evt} />) }
+              { events.map(evt => <Event key={evt.id} event={evt} />) }
           </div>
           <form onSubmit={this.handleSubmit}>
             <input type="text" value={this.state.name} onChange={this.handleNameChange} />
@@ -50,8 +50,7 @@ class Events extends Component {
 
 function mapStateToProps(state) {
     return {
-        events: state.get('events'),
-        participants: state.get('participants')
+        events: state.get('events').toJS()
     }
 }
 

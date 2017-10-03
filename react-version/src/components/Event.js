@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { Map, List } from 'immutable'
 import { addMatchToEvent } from '../reducers/index'
 
+import { values } from '../utils'
+
 class Event extends Component {
     constructor(props) {
         super(props)
@@ -37,10 +39,11 @@ class Event extends Component {
 
     render() {
         const { event, participants } = this.props
+        const participantList = values(participants)
 
         return (
             <div className="event">
-                <h1>{event.get('name')}</h1>
+                <h1>{event.name}</h1>
 
                 <table>
                     <thead>
@@ -50,14 +53,14 @@ class Event extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        { event.get('matching_results').map(r => {
-                            const gifter = participants.get(r.get('gifter'))
-                            const giftee = participants.get(r.get('giftee'))
+                        { event['matching_results'].map(r => {
+                            const gifter = participants[r.gifter]
+                            const giftee = participants[r.giftee]
 
                             return (
                                 <tr>
-                                    <td>{gifter.get('name')}</td>
-                                    <td>{giftee.get('name')}</td>
+                                    <td>{gifter.name}</td>
+                                    <td>{giftee.name}</td>
                                 </tr>
                             )
                         })}
@@ -67,11 +70,11 @@ class Event extends Component {
                 <form onSubmit={this.onSubmit}>
                     <select value={this.state.gifter} onChange={this.onChangeGifter}>
                         <option></option>
-                        {participants.valueSeq().map(p => <option value={p.get('id')}>{p.get('name')}</option>)}
+                        {participantList.map(p => <option value={p.id}>{p.name}</option>)}
                     </select>
                     <select value={this.state.giftee} onChange={this.onChangeGiftee}>
                         <option></option>
-                        {participants.valueSeq().map(p => <option value={p.get('id')}>{p.get('name')}</option>)}
+                        {participantList.map(p => <option value={p.id}>{p.name}</option>)}
                     </select>
                     <input type="submit" value="Add match" />
                 </form>
@@ -82,7 +85,7 @@ class Event extends Component {
 
 function mapStateToProps(state) {
     return {
-        participants: state.get('participants')
+        participants: state.get('participants').toJS()
     }
 }
 
