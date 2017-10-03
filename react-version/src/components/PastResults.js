@@ -2,16 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Map, List } from 'immutable'
 
-class Event extends Component {
-  render() {
-    const { event } = this.props
-    return (
-      <div className="event">
-        <h1>{event.get('name')}</h1>
-      </div>
-    )
-  }
-}
+import { addEvent } from '../reducers/index'
+import Event from './Event'
 
 class Events extends Component {
 
@@ -39,13 +31,13 @@ class Events extends Component {
     }
 
   render() {
-    const { events, participants } = this.props
+    const { events } = this.props
 
     return (
       <div>
           <h1>Past Events</h1>
           <div className="events">
-              { events.map(evt => <Event key={evt.get('id')} event={evt} participants={participants} />) }
+              { events.map(evt => <Event key={evt.get('id')} event={evt} />) }
           </div>
           <form onSubmit={this.handleSubmit}>
             <input type="text" value={this.state.name} onChange={this.handleNameChange} />
@@ -65,8 +57,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        addEvent: (evt) => dispatch({ type: 'ADD_EVENT', evt: Map({ ...evt, matching_results: List() }) }),
-        addMatchToEvent: (evt, match) => dispatch({ type: 'ADD_MATCH_TO_EVENT', evt, match })
+        addEvent: (evt) => dispatch(addEvent(Map({ ...evt, matching_results: List([]) })))
     }
 }
 

@@ -2,7 +2,6 @@ import uuid from 'uuid/v4'
 import { List, Map } from 'immutable'
 
 const ADD_GROUP = 'ADD_GROUP'
-const ADD_MEMBER_TO_GROUP = 'ADD_MEMBER_TO_GROUP'
 
 function addGroup() {
     const id = uuid()
@@ -12,6 +11,15 @@ function addGroup() {
         id
     }
 }
+
+function handleAddGroup(state, action) {
+    const { id } = action
+    
+    return state
+        .updateIn(['groups'], groups => groups.push(Map({ id, members: List() })))
+}
+
+const ADD_MEMBER_TO_GROUP = 'ADD_MEMBER_TO_GROUP'
 
 function addMemberToGroup(group, member) {
     const id = uuid()
@@ -32,26 +40,46 @@ function handleAddMemberToGroup(state, { id, group, member }) {
         .updateIn(['groups', i, 'members'], members => members.push(id))
 }
 
-function handleAddGroup(state, action) {
-    const { id } = action
-    
-    return state
-        .updateIn(['groups'], groups => groups.push(Map({ id, members: List() })))
+const ADD_EVENT = 'ADD_EVENT'
+
+function addEvent(event) {
+    const id = uuid()
+    return {
+        type: ADD_EVENT,
+        id,
+        event
+    }
 }
 
-function addEvent(state, event) {
-    const id = uuid()
-
+function handleAddEvent(state, { id, event }) {
     return state
         .updateIn(['events'], events => events.push(
-            event.setIn(['id'], id)
-                .setIn(['matching_results'], List())
+            event
+                .setIn(['id'], id)
+                .setIn(['matching_results'], List([]))
         ))
 }
 
-function addMatchToEvent(state, event, match) {
-    return state
-        .updateIn(['events', event.get('id', 'matching_results')], matching_results => matching_results.push(match))
+const ADD_MATCH_TO_EVENT = 'ADD_MATCH_TO_EVENT'
+
+function addMatchToEvent(event, match) {
+    return {
+        type: ADD_MATCH_TO_EVENT,
+        event,
+        match
+    }
+}
+
+function handleAddMatchToEvent(state, { event, match }) {
+    const i = state.get('events').indexOf(event)
+
+    const newState = state
+        .updateIn(
+            ['events', i, 'matching_results'], 
+            matching_results => matching_results.push(Map(match))
+        )
+
+    return newState
 }
 
 function reducer(state, action) {
@@ -60,10 +88,10 @@ function reducer(state, action) {
             return handleAddGroup(state, action)
         case ADD_MEMBER_TO_GROUP:
             return handleAddMemberToGroup(state, action)
-        case 'ADD_EVENT':
-            return addEvent(state, action.evt)
-        case 'ADD_MATCH_TO_EVENT':
-            return addMatchToEvent(state, action.evt, action.match)
+        case ADD_EVENT:
+            return handleAddEvent(state, action)
+        case ADD_MATCH_TO_EVENT:
+            return handleAddMatchToEvent(state, action)
         default:
             return state
     }
@@ -76,5 +104,7 @@ export {
     addGroup,
     handleAddGroup,
     addMemberToGroup,
-    handleAddMemberToGroup
+    handleAddMemberToGroup,
+    addEvent,
+    addMatchToEvent
 }
