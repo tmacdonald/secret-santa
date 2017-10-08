@@ -13,7 +13,7 @@ import rootReducer from './reducers'
 
 const storedState = fromJS(JSON.parse(window.localStorage.getItem('secret-santa')))
 
-const initialState = storedState || fromJS({ groups: [], participants: {}, events: []})
+const initialState = storedState || fromJS({ groups: [], participants: {}, events: [], results: {}})
 
 const store = createStore(rootReducer, initialState)
 

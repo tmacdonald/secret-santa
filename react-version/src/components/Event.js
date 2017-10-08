@@ -2,38 +2,16 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Map, List } from 'immutable'
 import { addMatchToEvent } from '../reducers/index'
+import MatchForm from './MatchForm'
 
 import { values } from '../utils'
 
 class Event extends Component {
-    constructor(props) {
-        super(props)
 
-        this.state = {
-        }
-
-        this.onSubmit = this.onSubmit.bind(this)
-        this.onChangeGifter = this.onChangeGifter.bind(this)
-        this.onChangeGiftee = this.onChangeGiftee.bind(this)
-    }
-
-    onSubmit(evt) {
-        evt.preventDefault()
-
-        const { event, addMatchToEvent } = this.props
-
-        addMatchToEvent(event, this.state)
-    }
-
-    onChangeGifter(evt) {
-        this.setState({
-            gifter: evt.target.value
-        })
-    }
-
-    onChangeGiftee(evt) {
-        this.setState({
-            giftee: evt.target.value
+    addMatch = (match) => {
+        this.props.addMatchToEvent(this.props.event, {
+            gifter: match.participant1,
+            giftee: match.participant2
         })
     }
 
@@ -67,17 +45,7 @@ class Event extends Component {
                     </tbody>
                 </table>
 
-                <form onSubmit={this.onSubmit}>
-                    <select value={this.state.gifter} onChange={this.onChangeGifter}>
-                        <option></option>
-                        {participantList.map(p => <option value={p.id}>{p.name}</option>)}
-                    </select>
-                    <select value={this.state.giftee} onChange={this.onChangeGiftee}>
-                        <option></option>
-                        {participantList.map(p => <option value={p.id}>{p.name}</option>)}
-                    </select>
-                    <input type="submit" value="Add match" />
-                </form>
+                <MatchForm participants={participantList} onAddMatch={this.addMatch} />
             </div>
         )
     }
