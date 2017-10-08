@@ -5,9 +5,7 @@ import { addMatchToEvent } from '../reducers/index'
 import MatchForm from './MatchForm'
 import MatchTable from './MatchTable'
 
-import { values } from '../utils'
-
-
+import { values } from '../lib/utils'
 
 class Event extends Component {
 
