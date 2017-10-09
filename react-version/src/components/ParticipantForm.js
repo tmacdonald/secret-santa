@@ -38,12 +38,11 @@ export default class ParticipantForm extends Component {
                     Name:
                     <input type="text" value={this.state.name} onChange={this.handleNameChange} />
                 </label>
-                { /*
                 <label>
                     Email:
                     <input type="email" value={this.state.email} onChange={this.handleEmailChange} />
                 </label>
-                */ }
+                <input type="submit" value="Add" />
             </form>
         )
     }

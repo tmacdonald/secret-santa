@@ -21,3 +21,13 @@ export function entries(map) {
 
     return entries
 }
+
+export function indexOf(list, finder) {
+    for (let i = 0; i < list.length; i = i + 1) {
+        if (finder(list[i])) {
+            return i
+        }
+    }
+
+    return -1
+}

@@ -9,7 +9,10 @@
  */
 function getCandidates(list, actor, blacklist, whitelist, used) {
     if (whitelist[actor]) {
-        return [whitelist[actor]]
+        if (used.indexOf(whitelist[actor]) === -1) {
+            return [whitelist[actor]]
+        }
+        return null
     }
 
     return list

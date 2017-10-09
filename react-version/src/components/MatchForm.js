@@ -26,7 +26,7 @@ export default class MatchForm extends React.PureComponent {
     }
     
     render() {
-        const { participants } = this.props
+        const participants = this.props.participants.slice().sort((p1, p2) => p1.name > p2.name)
 
         return (
             <form onSubmit={this.onSubmit}>

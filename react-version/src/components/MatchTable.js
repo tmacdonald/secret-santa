@@ -1,4 +1,5 @@
 import React from 'react'
+import './MatchTable.css';
 
 const MatchTable = ({ matches, participants }) => {
     return (
@@ -17,7 +18,7 @@ const MatchTable = ({ matches, participants }) => {
                     return (
                         <tr key={gifter.name}>
                             <td>{gifter.name}</td>
-                            <td>{giftee.name}</td>
+                            <td className="giftee">{giftee.name}</td>
                         </tr>
                     )
                 })}

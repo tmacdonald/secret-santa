@@ -1,6 +1,6 @@
 import uuid from 'uuid/v4'
 import { List, Map } from 'immutable'
-import { values } from '../lib/utils'
+import { values, indexOf } from '../lib/utils'
 import generate from '../lib/elf'
 
 const ADD_GROUP = 'ADD_GROUP'
@@ -35,7 +35,7 @@ function addMemberToGroup(group, member) {
 }
 
 function handleAddMemberToGroup(state, { id, group, member }) {
-    const i = state.get('groups').indexOf(group)
+    const i = indexOf(state.get('groups').toJS(), g => g.id === group.id)
 
     return state
         .setIn(['participants', id], Map({ ...member, id }))
@@ -73,7 +73,7 @@ function addMatchToEvent(event, match) {
 }
 
 function handleAddMatchToEvent(state, { event, match }) {
-    const i = state.get('events').indexOf(event)
+    const i = indexOf(state.get('events').toJS(), e => e.id === event.id)
 
     const newState = state
         .updateIn(
@@ -153,7 +153,17 @@ export function sendMail(participants, results) {
             const gifter = participants[key]
             const giftee = participants[results[key]]
 
-            console.log('Sending email to ' + gifter.name + ' that they have to buy a gift for ' + giftee.name)
+            fetch('http://localhost:8080/api/', {
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    gifter,
+                    giftee
+                })
+            })
         }
     }
 }

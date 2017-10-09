@@ -27,6 +27,15 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     const { gifter, giftee } = req.body
+
+    const email = {
+        to: gifter.email,
+        from: 'macdonald.tim@gmail.com',
+        subject: 'Secret Santa',
+        text: `You're to buy a gift/gifts for ${giftee.name}`,
+        html: `You're to buy a gift/gifts for <strong>${giftee.name}</strong>`
+    }
+    sendGrid.send(email)
     
     res.json({
         email: `${gifter.name}`,
@@ -34,6 +43,11 @@ router.post('/', (req, res) => {
     })
 })
 
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+    next()
+})
 app.use('/api', router)
 
 app.listen(port)
