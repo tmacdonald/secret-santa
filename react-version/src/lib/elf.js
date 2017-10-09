@@ -7,7 +7,11 @@
  * @param {Array} used              A list of candidates that have already been picked
  * @return {Array}                  A list of valid candidates
  */
-function getCandidates(list, actor, blacklist, used) {
+function getCandidates(list, actor, blacklist, whitelist, used) {
+    if (whitelist[actor]) {
+        return [whitelist[actor]]
+    }
+
     return list
         .filter(potential => {
             return potential !== actor 
@@ -19,9 +23,9 @@ function getCandidates(list, actor, blacklist, used) {
         .sort(() => Math.random() < 0.5)
 }
 
-function generateRecursive(list, i, blacklist, used) {
+function generateRecursive(list, i, blacklist, whitelist, used) {
     const actor = list[i]
-    const candidates = getCandidates(list, actor, blacklist, used)
+    const candidates = getCandidates(list, actor, blacklist, whitelist, used)
     
     if (candidates) {
         for (let j = 0; j < candidates.length; j = j + 1) {
@@ -31,7 +35,7 @@ function generateRecursive(list, i, blacklist, used) {
                     [actor]: candidate
                 }
             } else {
-                const recursiveCall = generateRecursive(list, i + 1, blacklist, used.concat(candidate))
+                const recursiveCall = generateRecursive(list, i + 1, blacklist, whitelist, used.concat(candidate))
                 if (recursiveCall) {
                     return { [actor]: candidate, ...recursiveCall }
                 }
@@ -49,6 +53,6 @@ function generateRecursive(list, i, blacklist, used) {
  * @param {Map} blacklist   A map of which actors are invalid for a given actor
  * @param {Map} whitelist   A map of actor -> actor that should always be matched
  */
-export default function generate(list, blacklist, whitelist) {
-    return generateRecursive(list, 0, blacklist || {}, [])
+export default function generate(list, blacklist = {}, whitelist = {}) {
+    return generateRecursive(list, 0, blacklist, whitelist, [])
 }

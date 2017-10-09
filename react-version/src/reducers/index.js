@@ -106,13 +106,13 @@ export function clearResults() {
     }
 }
 
-function generateResults(participants, groups) {
+function generateResults(participants, groups, whitelist) {
     const participantList = values(participants)
 
     const ids = participantList.map(p => p.id)
     const blacklist = createBlacklist(groups)
 
-    const results = generate(ids, blacklist)
+    const results = generate(ids, blacklist, whitelist)
 
     return {
         type: RESULTS_UPDATED,
