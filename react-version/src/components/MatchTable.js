@@ -10,7 +10,7 @@ const MatchTable = ({ matches, participants }) => {
                 </tr>
             </thead>
             <tbody>
-                { matches.map(r => {
+                { matches && matches.map(r => {
                     const gifter = participants[r.gifter]
                     const giftee = participants[r.giftee]
 

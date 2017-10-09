@@ -1,5 +1,7 @@
 import uuid from 'uuid/v4'
 import { List, Map } from 'immutable'
+import { values, entries } from '../lib/utils'
+import generate from '../lib/elf'
 
 const ADD_GROUP = 'ADD_GROUP'
 
@@ -82,6 +84,43 @@ function handleAddMatchToEvent(state, { event, match }) {
     return newState
 }
 
+const GENERATE_RESULTS = 'GENERATE_RESULTS'
+
+function generateResults() {
+    return {
+        type: GENERATE_RESULTS
+    }
+}
+
+function handleGenerateResults(state) {
+    const { participants, groups } = state.toJS()
+
+    const participantList = values(participants)
+
+    const ids = participantList.map(p => p.id)
+    const blacklist = createBlacklist(groups)
+
+    const matches = generate(ids, blacklist)
+
+    const newState = state
+        .update('results', () => Map(matches))
+
+    return newState
+}
+
+function createBlacklist(groups) {
+    const blacklist = {}
+
+    groups.forEach(group => {
+      for (let i = 0; i < group.members.length; i = i + 1) {
+        const id = group.members[i]
+        blacklist[id] = group.members.filter(m => m !== id)
+      }
+    })
+
+    return blacklist
+  }
+
 function reducer(state, action) {
     switch (action.type) {
         case ADD_GROUP:
@@ -92,6 +131,8 @@ function reducer(state, action) {
             return handleAddEvent(state, action)
         case ADD_MATCH_TO_EVENT:
             return handleAddMatchToEvent(state, action)
+        case GENERATE_RESULTS:
+            return handleGenerateResults(state, action)
         default:
             return state
     }
@@ -106,5 +147,6 @@ export {
     addMemberToGroup,
     handleAddMemberToGroup,
     addEvent,
-    addMatchToEvent
+    addMatchToEvent,
+    generateResults
 }
