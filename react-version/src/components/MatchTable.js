@@ -1,6 +1,6 @@
 import React from 'react'
 
-const MatchTable = ({ event, participants }) => {
+const MatchTable = ({ matches, participants }) => {
     return (
         <table>
             <thead>
@@ -10,7 +10,7 @@ const MatchTable = ({ event, participants }) => {
                 </tr>
             </thead>
             <tbody>
-                { event['matching_results'].map(r => {
+                { matches.map(r => {
                     const gifter = participants[r.gifter]
                     const giftee = participants[r.giftee]
 

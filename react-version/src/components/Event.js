@@ -24,7 +24,7 @@ class Event extends Component {
             <div className="event">
                 <h1>{event.name}</h1>
 
-                <MatchTable participants={participants} event={event} />
+                <MatchTable participants={participants} matches={event['matching_results']} />
 
                 <MatchForm participants={participantList} onAddMatch={this.addMatch} />
             </div>

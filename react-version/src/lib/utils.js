@@ -19,5 +19,5 @@ export function entries(map) {
         }
     }
 
-    return values
+    return entries
 }
