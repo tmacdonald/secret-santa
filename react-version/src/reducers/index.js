@@ -106,11 +106,11 @@ export function clearResults() {
     }
 }
 
-function generateResults(participants, groups, whitelist) {
+function generateResults(participants, groups, events, whitelist) {
     const participantList = values(participants)
 
     const ids = participantList.map(p => p.id)
-    const blacklist = createBlacklist(groups)
+    const blacklist = createBlacklist(groups, events)
 
     const results = generate(ids, blacklist, whitelist)
 
@@ -127,7 +127,7 @@ function handleUpdatedResults(state, { results }) {
     return newState
 }
 
-function createBlacklist(groups) {
+function createBlacklist(groups, events) {
     const blacklist = {}
 
     groups.forEach(group => {
@@ -135,6 +135,13 @@ function createBlacklist(groups) {
         const id = group.members[i]
         blacklist[id] = group.members.filter(m => m !== id)
       }
+    })
+
+    events.forEach(evt => {
+        evt['matching_results'].forEach(match => {
+            const id = match.gifter
+            blacklist[id] = blacklist[id].concat(match.giftee)
+        })
     })
 
     return blacklist

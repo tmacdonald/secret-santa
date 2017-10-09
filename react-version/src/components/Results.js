@@ -8,8 +8,8 @@ import { addResult, generateResults, clearResults } from '../reducers'
 
 class Results extends Component {
   generate = () => {
-    const { participants, groups, results, generateResults } = this.props
-    generateResults(participants, groups, results)
+    const { participants, groups, results, events, generateResults } = this.props
+    generateResults(participants, groups, events, results)
   }
 
   addResult = (result) => {
@@ -35,22 +35,25 @@ class Results extends Component {
 }
 
 function mapStateToProps(state) {
-  const { participants, groups, results } = state.toJS()
+  // Needed for dispatching actions; this seems messy
+  const { participants, groups, events, results } = state.toJS()
 
   return {
     participants,
     participantList: values(participants),
     groups,
+    events,
     results,
     matches: entries(results).map(r => ({ gifter: r.key, giftee: r.value }))
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
+  console.log(ownProps)
   return {
     addResult: (result) => dispatch(addResult(result)),
     clearResults: () => dispatch(clearResults()),
-    generateResults: (participants, groups, results) => dispatch(generateResults(participants, groups, results))
+    generateResults: (participants, groups, events, results) => dispatch(generateResults(participants, groups, events, results))
   }
 }
 
