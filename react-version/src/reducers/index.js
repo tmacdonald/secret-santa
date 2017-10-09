@@ -1,6 +1,6 @@
 import uuid from 'uuid/v4'
 import { List, Map } from 'immutable'
-import { values, entries } from '../lib/utils'
+import { values } from '../lib/utils'
 import generate from '../lib/elf'
 
 const ADD_GROUP = 'ADD_GROUP'
@@ -145,7 +145,18 @@ function createBlacklist(groups, events) {
     })
 
     return blacklist
-  }
+}
+
+export function sendMail(participants, results) {
+    for (let key in results) {
+        if (results.hasOwnProperty(key)) {
+            const gifter = participants[key]
+            const giftee = participants[results[key]]
+
+            console.log('Sending email to ' + gifter.name + ' that they have to buy a gift for ' + giftee.name)
+        }
+    }
+}
 
 function reducer(state, action) {
     switch (action.type) {

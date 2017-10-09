@@ -15,7 +15,7 @@ const MatchTable = ({ matches, participants }) => {
                     const giftee = participants[r.giftee]
 
                     return (
-                        <tr>
+                        <tr key={gifter.name}>
                             <td>{gifter.name}</td>
                             <td>{giftee.name}</td>
                         </tr>

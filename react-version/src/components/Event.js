@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Map, List } from 'immutable'
 import { addMatchToEvent } from '../reducers/index'
 import MatchForm from './MatchForm'
 import MatchTable from './MatchTable'

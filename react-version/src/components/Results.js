@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { values, entries } from '../lib/utils'
-import generate from '../lib/elf'
 import MatchTable from './MatchTable'
 import MatchForm from './MatchForm'
-import { addResult, generateResults, clearResults } from '../reducers'
+import { addResult, generateResults, clearResults, sendMail } from '../reducers'
 
 class Results extends Component {
   generate = () => {
@@ -14,6 +13,11 @@ class Results extends Component {
 
   addResult = (result) => {
     this.props.addResult({ key: result.participant1, value: result.participant2 })
+  }
+
+  sendMail = () => {
+    const { participants, results } = this.props
+    sendMail(participants, results)
   }
 
   render() {
@@ -27,6 +31,7 @@ class Results extends Component {
         }
         <button onClick={this.generate}>Generate</button>
         <button onClick={clearResults}>Clear</button>
+        <button onClick={this.sendMail}>Send Email</button>
 
         <MatchForm participants={participantList} onAddMatch={this.addResult} />
       </div>
