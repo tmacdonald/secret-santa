@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { values, entries } from '../lib/utils'
 import generate from '../lib/elf'
 import MatchTable from './MatchTable'
-import { generateResults } from '../reducers'
+import { addResult, generateResults, clearResults } from '../reducers'
 
 class Results extends Component {
   generate = () => {
@@ -12,7 +12,7 @@ class Results extends Component {
   }
 
   render() {
-    const { participants, matches } = this.props
+    const { participants, matches, clearResults } = this.props
 
     return (
       <div>
@@ -21,6 +21,7 @@ class Results extends Component {
             <MatchTable participants={participants} matches={matches} />
         }
         <button onClick={this.generate}>Generate</button>
+        <button onClick={clearResults}>Clear</button>
       </div>
     )
   }
@@ -38,6 +39,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    addResult: (result) => dispatch(addResult(result)),
+    clearResults: () => dispatch(clearResults()),
     generateResults: (participants, groups) => dispatch(generateResults(participants, groups))
   }
 }

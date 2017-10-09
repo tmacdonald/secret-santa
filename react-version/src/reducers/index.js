@@ -84,7 +84,27 @@ function handleAddMatchToEvent(state, { event, match }) {
     return newState
 }
 
-const RESULTS_GENERATED = 'RESULTS_GENERATED'
+const ADD_RESULT = 'ADD_RESULT'
+const RESULTS_UPDATED = 'RESULTS_UPDATED'
+
+export function addResult(result) {
+    return {
+        type: ADD_RESULT,
+        result
+    }
+}
+
+function handleAddResult(state, { result }) {
+    return state
+        .setIn(['results', result.key], result.value)
+}
+
+export function clearResults() {
+    return {
+        type: 'RESULTS_UPDATED',
+        results: {}
+    }
+}
 
 function generateResults(participants, groups) {
     const participantList = values(participants)
@@ -92,17 +112,17 @@ function generateResults(participants, groups) {
     const ids = participantList.map(p => p.id)
     const blacklist = createBlacklist(groups)
 
-    const matches = generate(ids, blacklist)
+    const results = generate(ids, blacklist)
 
     return {
-        type: RESULTS_GENERATED,
-        results: Map(matches)
+        type: RESULTS_UPDATED,
+        results
     }
 }
 
-function handleGenerateResults(state, { results }) {
+function handleUpdatedResults(state, { results }) {
     const newState = state
-        .update('results', () => results)
+        .update('results', () => Map(results))
 
     return newState
 }
@@ -130,8 +150,10 @@ function reducer(state, action) {
             return handleAddEvent(state, action)
         case ADD_MATCH_TO_EVENT:
             return handleAddMatchToEvent(state, action)
-        case RESULTS_GENERATED:
-            return handleGenerateResults(state, action)
+        case ADD_RESULT:
+            return handleAddResult(state, action)
+        case RESULTS_UPDATED:
+            return handleUpdatedResults(state, action)
         default:
             return state
     }
