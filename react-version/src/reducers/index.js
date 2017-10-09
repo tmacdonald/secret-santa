@@ -84,17 +84,9 @@ function handleAddMatchToEvent(state, { event, match }) {
     return newState
 }
 
-const GENERATE_RESULTS = 'GENERATE_RESULTS'
+const RESULTS_GENERATED = 'RESULTS_GENERATED'
 
-function generateResults() {
-    return {
-        type: GENERATE_RESULTS
-    }
-}
-
-function handleGenerateResults(state) {
-    const { participants, groups } = state.toJS()
-
+function generateResults(participants, groups) {
     const participantList = values(participants)
 
     const ids = participantList.map(p => p.id)
@@ -102,8 +94,15 @@ function handleGenerateResults(state) {
 
     const matches = generate(ids, blacklist)
 
+    return {
+        type: RESULTS_GENERATED,
+        results: Map(matches)
+    }
+}
+
+function handleGenerateResults(state, { results }) {
     const newState = state
-        .update('results', () => Map(matches))
+        .update('results', () => results)
 
     return newState
 }
@@ -131,7 +130,7 @@ function reducer(state, action) {
             return handleAddEvent(state, action)
         case ADD_MATCH_TO_EVENT:
             return handleAddMatchToEvent(state, action)
-        case GENERATE_RESULTS:
+        case RESULTS_GENERATED:
             return handleGenerateResults(state, action)
         default:
             return state

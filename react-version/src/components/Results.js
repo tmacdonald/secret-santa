@@ -7,7 +7,8 @@ import { generateResults } from '../reducers'
 
 class Results extends Component {
   generate = () => {
-    this.props.generateResults()  
+    const { participants, groups, generateResults } = this.props
+    generateResults(participants, groups)
   }
 
   render() {
@@ -26,17 +27,18 @@ class Results extends Component {
 }
 
 function mapStateToProps(state) {
-  const participants = state.get('participants').toJS()
-  const results = state.get('results').toJS()
+  const { participants, groups, results } = state.toJS()
+
   return {
     participants,
+    groups,
     matches: entries(results).map(r => ({ gifter: r.key, giftee: r.value }))
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    generateResults: () => dispatch(generateResults())
+    generateResults: (participants, groups) => dispatch(generateResults(participants, groups))
   }
 }
 
