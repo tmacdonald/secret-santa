@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { values, entries } from '../lib/utils'
 import MatchTable from './MatchTable'
 import MatchForm from './MatchForm'
-import { addResult, generateResults, clearResults, sendMail } from '../reducers'
+import { addResult, generateResults, clearResults, sendMail } from '../reducers/results'
 
 class Results extends Component {
   generate = () => {

@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 
-import { addGroup, addMemberToGroup } from '../reducers/index'
+import { addGroup } from '../reducers/groups'
+import { addMemberToGroup } from '../reducers/shared'
 
 import Groups from './Groups'
 

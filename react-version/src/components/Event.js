@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addMatchToEvent } from '../reducers/index'
+import { addMatchToEvent } from '../reducers/events'
 import MatchForm from './MatchForm'
 import MatchTable from './MatchTable'
 

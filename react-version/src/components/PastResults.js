@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Map, List } from 'immutable'
 
-import { addEvent } from '../reducers/index'
+import { addEvent } from '../reducers/events'
 import Event from './Event'
 
 class Events extends Component {
