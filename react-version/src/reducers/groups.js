@@ -2,9 +2,8 @@ import uuid from 'uuid/v4'
 import { Map, List } from 'immutable'
 import { indexOf } from '../lib/utils'
 
-import { ADD_MEMBER_TO_GROUP } from './shared'
-
 const ADD_GROUP = 'secret-santa/groups/add'
+export const ADD_MEMBER_TO_GROUP = 'secret-santa/shared/add-member-to-group'
 
 export default function(state, action) {
     switch (action.type) {
@@ -26,11 +25,19 @@ export default function(state, action) {
     }
 }
 
-export function addGroup() {
-    const id = uuid()
-
+export function addGroup(id = uuid()) {
     return {
         type: ADD_GROUP,
         id
     }
 }
+
+export function addMemberToGroup(group, member, id = uuid()) {
+    return {
+        type: ADD_MEMBER_TO_GROUP,
+        id,
+        group,
+        member
+    }
+}
+

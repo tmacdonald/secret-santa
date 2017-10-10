@@ -1,6 +1,6 @@
 import { Map } from 'immutable'
 
-import { ADD_MEMBER_TO_GROUP } from './shared'
+import { ADD_MEMBER_TO_GROUP } from './groups'
 
 export default function(state, action) {
     switch (action.type) {
