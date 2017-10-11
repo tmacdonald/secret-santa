@@ -1,0 +1,6 @@
+td.giftee {
+    background: black;
+}
+td.giftee:hover {
+    background: white;
+}
